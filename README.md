@@ -24,6 +24,8 @@ Close Cursor first.
 
 ### Windows PowerShell
 
+Run this from an **Administrator PowerShell**. If you run it from a normal PowerShell, the script will request Windows UAC elevation.
+
 ```powershell
 powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://github.com/k0baya/cursor2plus-patch/releases/latest/download/install.ps1 | iex"
 ```
@@ -41,6 +43,8 @@ powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://github.com/k
 Close Cursor first.
 
 ### Windows PowerShell
+
+Run this from an **Administrator PowerShell**. If you run it from a normal PowerShell, the script will request Windows UAC elevation.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://github.com/k0baya/cursor2plus-patch/releases/latest/download/uninstall.ps1 | iex"

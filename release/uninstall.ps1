@@ -36,6 +36,40 @@ function Invoke-Download($Url, $OutFile) {
   Invoke-WebRequest -Uri $Url -OutFile $OutFile -UseBasicParsing
 }
 
+function Test-Admin {
+  $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+  $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+  return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+function Start-ElevatedUninstaller {
+  $scriptUrl = "$BaseUrl/uninstall.ps1"
+  $bootstrapPath = Join-Path ([IO.Path]::GetTempPath()) ("ccursor-k0baya-uninstall-elevated-" + [guid]::NewGuid().ToString("N") + ".ps1")
+  $bootstrap = @"
+`$ErrorActionPreference = "Stop"
+`$env:CCURSOR_RELEASE_BASE_URL = @'
+$BaseUrl
+'@
+Invoke-Expression (Invoke-RestMethod -Uri @'
+$scriptUrl
+'@)
+"@
+  Set-Content -LiteralPath $bootstrapPath -Value $bootstrap -Encoding UTF8
+  try {
+    Write-Warning "Administrator privileges are required to restore Cursor files under Program Files."
+    Write-Warning "Opening an elevated PowerShell window. Approve the Windows UAC prompt to continue."
+    $p = Start-Process -FilePath "powershell.exe" -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $bootstrapPath) -Verb RunAs -Wait -PassThru
+    if ($null -ne $p.ExitCode -and $p.ExitCode -ne 0) {
+      throw "Elevated uninstaller failed with exit code $($p.ExitCode)."
+    }
+    Write-Host "Elevated uninstaller finished. Restart Cursor."
+  } catch {
+    throw "Administrator elevation was cancelled or failed. Re-run this command from an Administrator PowerShell. $($_.Exception.Message)"
+  } finally {
+    Remove-Item -LiteralPath $bootstrapPath -Force -ErrorAction SilentlyContinue
+  }
+}
+
 Write-Host "== $DisplayName uninstaller =="
 Write-Host "Patched by: $PatchedBy"
 Write-Host "Signature: $SignatureFingerprint"
@@ -46,6 +80,11 @@ if (-not (Test-Command "npm")) { throw "npm is required. Install Node.js/npm fir
 
 if (Get-Process Cursor -ErrorAction SilentlyContinue) {
   throw "Cursor is running. Close Cursor and run this uninstaller again."
+}
+
+if (-not (Test-Admin)) {
+  Start-ElevatedUninstaller
+  exit 0
 }
 
 $tmp = Join-Path ([IO.Path]::GetTempPath()) ("ccursor-k0baya-uninstall-" + [guid]::NewGuid().ToString("N"))

@@ -42,6 +42,34 @@ function Invoke-Download($Url, $OutFile) {
   Invoke-WebRequest -Uri $Url -OutFile $OutFile -UseBasicParsing
 }
 
+function Start-ElevatedInstaller {
+  $scriptUrl = "$BaseUrl/install.ps1"
+  $bootstrapPath = Join-Path ([IO.Path]::GetTempPath()) ("ccursor-k0baya-install-elevated-" + [guid]::NewGuid().ToString("N") + ".ps1")
+  $bootstrap = @"
+`$ErrorActionPreference = "Stop"
+`$env:CCURSOR_RELEASE_BASE_URL = @'
+$BaseUrl
+'@
+Invoke-Expression (Invoke-RestMethod -Uri @'
+$scriptUrl
+'@)
+"@
+  Set-Content -LiteralPath $bootstrapPath -Value $bootstrap -Encoding UTF8
+  try {
+    Write-Warning "Administrator privileges are required to patch Cursor under Program Files."
+    Write-Warning "Opening an elevated PowerShell window. Approve the Windows UAC prompt to continue."
+    $p = Start-Process -FilePath "powershell.exe" -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $bootstrapPath) -Verb RunAs -Wait -PassThru
+    if ($null -ne $p.ExitCode -and $p.ExitCode -ne 0) {
+      throw "Elevated installer failed with exit code $($p.ExitCode)."
+    }
+    Write-Host "Elevated installer finished. Restart Cursor."
+  } catch {
+    throw "Administrator elevation was cancelled or failed. Re-run this command from an Administrator PowerShell. $($_.Exception.Message)"
+  } finally {
+    Remove-Item -LiteralPath $bootstrapPath -Force -ErrorAction SilentlyContinue
+  }
+}
+
 Write-Host "== $DisplayName installer =="
 Write-Host "Patched by: $PatchedBy"
 Write-Host "Signature: $SignatureFingerprint"
@@ -59,8 +87,8 @@ if (Get-Process Cursor -ErrorAction SilentlyContinue) {
 }
 
 if (-not (Test-Admin)) {
-  Write-Warning "Administrator privileges may be required because Cursor is usually installed under Program Files."
-  Write-Warning "If installation fails with EACCES/EPERM, rerun this command from an Administrator PowerShell."
+  Start-ElevatedInstaller
+  exit 0
 }
 
 $tmp = Join-Path ([IO.Path]::GetTempPath()) ("ccursor-k0baya-" + [guid]::NewGuid().ToString("N"))
