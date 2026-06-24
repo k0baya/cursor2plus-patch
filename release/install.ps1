@@ -114,7 +114,9 @@ try {
 
   if (Test-Command "cursor") {
     & cursor --uninstall-extension company-internal.cursor2plus 2>$null | Out-Null
+    $global:LASTEXITCODE = 0
     & cursor --uninstall-extension cometix-space.cursor2plus 2>$null | Out-Null
+    $global:LASTEXITCODE = 0
   }
 
   Write-Host "Running ccursor install from local tarball..."
@@ -130,6 +132,7 @@ try {
   Write-Host "Required after restart: set Cursor network mode to HTTP/1.1 and make sure Cursor++ BYOK is ON."
   Write-Host "Recommended: set Cursor orientation to vertical to find the Cursor++ configuration panel more easily."
   Write-Host "Update procedure: close Cursor, uninstall this patch, then install again."
+  exit 0
 } finally {
   Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 }

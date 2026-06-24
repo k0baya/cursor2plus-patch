@@ -70,6 +70,27 @@ $scriptUrl
   }
 }
 
+function Test-CcursorAlreadyUninstalled($TgzPath) {
+  $output = (& npm exec --yes --package $TgzPath -- ccursor status 2>&1 | Out-String)
+  $global:LASTEXITCODE = 0
+  return (
+    $output -match 'Extension not installed' -and
+    $output -match 'Renderer hook not injected' -and
+    $output -match 'Always-local not patched' -and
+    $output -match 'Signature bypass not active' -and
+    $output -match 'Server wait injection not active'
+  )
+}
+
+function Remove-CursorExtensionRegistrations {
+  if (Test-Command "cursor") {
+    & cursor --uninstall-extension company-internal.cursor2plus 2>$null | Out-Null
+    $global:LASTEXITCODE = 0
+    & cursor --uninstall-extension cometix-space.cursor2plus 2>$null | Out-Null
+    $global:LASTEXITCODE = 0
+  }
+}
+
 Write-Host "== $DisplayName uninstaller =="
 Write-Host "Patched by: $PatchedBy"
 Write-Host "Signature: $SignatureFingerprint"
@@ -80,11 +101,6 @@ if (-not (Test-Command "npm")) { throw "npm is required. Install Node.js/npm fir
 
 if (Get-Process Cursor -ErrorAction SilentlyContinue) {
   throw "Cursor is running. Close Cursor and run this uninstaller again."
-}
-
-if (-not (Test-Admin)) {
-  Start-ElevatedUninstaller
-  exit 0
 }
 
 $tmp = Join-Path ([IO.Path]::GetTempPath()) ("ccursor-k0baya-uninstall-" + [guid]::NewGuid().ToString("N"))
@@ -100,20 +116,27 @@ try {
     throw "SHA256 mismatch for $($latest.tarball.name). Expected $($latest.tarball.sha256), got $actualHash"
   }
 
+  if (Test-CcursorAlreadyUninstalled $tgzPath) {
+    Remove-CursorExtensionRegistrations
+    Write-Host ""
+    Write-Host "$DisplayName is already uninstalled."
+    exit 0
+  }
+
+  if (-not (Test-Admin)) {
+    Start-ElevatedUninstaller
+    exit 0
+  }
+
   Write-Host "Running ccursor uninstall from local tarball..."
   & npm exec --yes --package $tgzPath -- ccursor uninstall
   if ($LASTEXITCODE -ne 0) { throw "ccursor uninstall failed with exit code $LASTEXITCODE" }
 
-  if (Test-Command "cursor") {
-    & cursor --uninstall-extension company-internal.cursor2plus 2>$null | Out-Null
-    $global:LASTEXITCODE = 0
-    & cursor --uninstall-extension cometix-space.cursor2plus 2>$null | Out-Null
-    $global:LASTEXITCODE = 0
-  }
+  Remove-CursorExtensionRegistrations
 
   Write-Host ""
   Write-Host "Uninstalled $DisplayName. Restart Cursor."
-  $global:LASTEXITCODE = 0
+  exit 0
 } finally {
   Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 }
