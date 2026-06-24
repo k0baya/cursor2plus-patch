@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "name": "Cursor++ k0baya Local",
+  "upstreamPackage": "@cometix/ccursor",
+  "upstreamVersion": "0.0.11",
+  "companyVersion": "0.0.11-company.0",
+  "patchedBy": "k0baya",
+  "generatedAt": "2026-06-24T09:47:26.430Z",
+  "releaseBaseUrl": "__CCURSOR_RELEASE_BASE_URL__",
+  "signature": {
+    "locked": true,
+    "name": "k0baya",
+    "displayName": "Cursor++ k0baya Local",
+    "statusLabel": "patched by",
+    "fingerprint": "kbya-20260624-local"
+  },
+  "minNodeMajor": 18,
+  "tarball": {
+    "name": "cometix-ccursor-0.0.11-company.0.tgz",
+    "size": 13792392,
+    "sha256": "c0af1a1f017af27a673a533829147163aee606891fee1d32c4f42e52215a3cda",
+    "url": "__CCURSOR_RELEASE_BASE_URL__/cometix-ccursor-0.0.11-company.0.tgz"
+  },
+  "vsix": {
+    "name": "cursor2plus-0.0.11-company.vsix",
+    "size": 13576463,
+    "sha256": "6ed3e39b194909b4a8a3121f072bf3b84ca462e25480821692d5b1a9db4fe3f3",
+    "url": "__CCURSOR_RELEASE_BASE_URL__/cursor2plus-0.0.11-company.vsix"
+  },
+  "patchReport": {
+    "name": "patch-report.json",
+    "size": 3567,
+    "sha256": "cdb12efd581169f6631bfacbda4a23527f80fce3b9defa70f674982638fa141d",
+    "url": "__CCURSOR_RELEASE_BASE_URL__/patch-report.json"
+  },
+  "install": {
+    "windows": "install.ps1",
+    "macos": "install.sh"
+  },
+  "uninstall": {
+    "windows": "uninstall.ps1",
+    "macos": "uninstall.sh"
+  },
+  "notes": [
+    "Internal team use only. Unauthorized modification, redistribution, or resale is prohibited.",
+    "This package is a k0baya company-local patch of Cursor++.",
+    "Provider editing remains available; company provider presets are seeded during ccursor install.",
+    "Set Cursor network mode to HTTP/1.1 and make sure Cursor++ BYOK is ON after installation.",
+    "Update by closing Cursor, uninstalling this patch, then installing again.",
+    "VSIX-only install is not enough for the lower-left BYOK account/glass entry; use the install scripts or ccursor install path."
+  ]
+}

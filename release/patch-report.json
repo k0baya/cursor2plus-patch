@@ -1,0 +1,127 @@
+{
+  "packageSpec": "@cometix/ccursor@latest",
+  "configPath": "C:\\Data\\git-repo\\cursor++patch\\config\\company-ccursor.json",
+  "generatedAt": "2026-06-24T09:47:15.675Z",
+  "signature": {
+    "locked": true,
+    "name": "k0baya",
+    "displayName": "Cursor++ k0baya Local",
+    "statusLabel": "patched by",
+    "fingerprint": "kbya-20260624-local"
+  },
+  "steps": [
+    {
+      "step": "npm-pack-source",
+      "spec": "@cometix/ccursor@latest",
+      "tarball": "build\\work\\cometix-ccursor-0.0.11.tgz"
+    },
+    {
+      "step": "npm-pack-patched",
+      "tarball": "dist\\cometix-ccursor-0.0.11-company.0.tgz"
+    }
+  ],
+  "patches": {
+    "extensionPackageJson": {
+      "oldIdentity": {
+        "name": "cursor2plus",
+        "publisher": "cometix-space",
+        "displayName": "Cursor++",
+        "version": "0.0.11"
+      },
+      "newIdentity": {
+        "name": "cursor2plus",
+        "publisher": "cometix-space",
+        "displayName": "Cursor++ k0baya Local",
+        "version": "0.0.11"
+      },
+      "beforeCommands": 10,
+      "afterCommands": 7,
+      "removed": 3
+    },
+    "vsixManifest": {
+      "before": {
+        "publisher": "cometix-space",
+        "displayName": "Cursor++"
+      },
+      "after": {
+        "publisher": "cometix-space",
+        "displayName": "Cursor++ k0baya Local"
+      }
+    },
+    "extensionJs": {
+      "hubCheck": {
+        "name": "Fb1yEUo",
+        "start": 6495153,
+        "end": 6496162,
+        "length": 1009,
+        "matched": [
+          "[HUB] no token → deny",
+          "[HUB] online OK, user=",
+          "[HUB] unauthorized → token cleared",
+          "ok_cached"
+        ]
+      },
+      "hubRecheck": {
+        "name": "b91W41",
+        "start": 6496162,
+        "end": 6496810,
+        "length": 648,
+        "matched": [
+          "[HUB] periodic re-check detected revoke"
+        ]
+      },
+      "providerNormalizer": {
+        "mode": "preserved-original-provider-editor-flow"
+      },
+      "statusBar": {
+        "name": "ZJcFLs",
+        "start": 8659726,
+        "end": 8661217,
+        "length": 1491,
+        "matched": [
+          "$(account) Sign in to Cursor++",
+          "Cursor++ Hub 未登录。点击进行设备授权。",
+          "BYOK OFF — passing through to official Cursor",
+          "cursor2plus.toggleByok"
+        ],
+        "mode": "preserved-original-style",
+        "signedInLabel": "patched by"
+      },
+      "updateChecker": {
+        "name": "hnhFVu",
+        "start": 8650830,
+        "end": 8651928,
+        "length": 1098,
+        "matched": [
+          "[UPDATE] new version available: "
+        ]
+      },
+      "replacements": 4
+    },
+    "providerPresets": {
+      "extensionFile": "extension/company-provider-presets.json",
+      "packageFile": "dist/company-provider-presets.json",
+      "packageCatalogFile": "dist/models-catalog.json",
+      "providerCount": 3,
+      "mode": "seed-defaults-and-keep-editor"
+    },
+    "cliProviderPresetSeeder": {
+      "mode": "merge-provider-presets-after-successful-install",
+      "beforeBytes": 338425,
+      "afterBytes": 340796,
+      "providerCount": 3
+    },
+    "npmPackageJson": {
+      "oldName": "@cometix/ccursor",
+      "newName": "@cometix/ccursor",
+      "oldVersion": "0.0.11",
+      "newVersion": "0.0.11-company.0"
+    }
+  },
+  "sourceVersion": "0.0.11",
+  "sourceVsix": "build\\work\\npm\\package\\vsix\\cursor2plus-0.0.11.vsix",
+  "artifacts": {
+    "patchedVsix": "dist\\cursor2plus-0.0.11-company.vsix",
+    "patchedNpmTarball": "dist\\cometix-ccursor-0.0.11-company.0.tgz"
+  }
+}
