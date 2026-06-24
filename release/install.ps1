@@ -70,6 +70,21 @@ $scriptUrl
   }
 }
 
+function Remove-CursorExtensionRegistrations {
+  $oldErrorActionPreference = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try {
+    if (Test-Command "cursor") {
+      try { & cursor --uninstall-extension company-internal.cursor2plus *>$null } catch {}
+      $global:LASTEXITCODE = 0
+      try { & cursor --uninstall-extension cometix-space.cursor2plus *>$null } catch {}
+      $global:LASTEXITCODE = 0
+    }
+  } finally {
+    $ErrorActionPreference = $oldErrorActionPreference
+  }
+}
+
 Write-Host "== $DisplayName installer =="
 Write-Host "Patched by: $PatchedBy"
 Write-Host "Signature: $SignatureFingerprint"
@@ -112,12 +127,7 @@ try {
   }
   Write-Host "SHA256 verified: $actualHash"
 
-  if (Test-Command "cursor") {
-    & cursor --uninstall-extension company-internal.cursor2plus 2>$null | Out-Null
-    $global:LASTEXITCODE = 0
-    & cursor --uninstall-extension cometix-space.cursor2plus 2>$null | Out-Null
-    $global:LASTEXITCODE = 0
-  }
+  Remove-CursorExtensionRegistrations
 
   Write-Host "Running ccursor install from local tarball..."
   & npm exec --yes --package $tgzPath -- ccursor install
