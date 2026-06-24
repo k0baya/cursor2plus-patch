@@ -5,7 +5,7 @@
   "upstreamVersion": "0.0.11",
   "companyVersion": "0.0.11-company.0",
   "patchedBy": "k0baya",
-  "generatedAt": "2026-06-24T10:05:59.411Z",
+  "generatedAt": "2026-06-24T10:12:19.927Z",
   "releaseBaseUrl": "__CCURSOR_RELEASE_BASE_URL__",
   "signature": {
     "locked": true,
@@ -17,20 +17,20 @@
   "minNodeMajor": 18,
   "tarball": {
     "name": "cometix-ccursor-0.0.11-company.0.tgz",
-    "size": 13792392,
-    "sha256": "ed646ebbd3a14d039ff335f73b06b8dde8497c4cbc609ae9b8c2f8aa2d9e9894",
+    "size": 13792391,
+    "sha256": "860abed0913052a7795ebf3f6186309ba8484ba722d3c0cd3a7f792f3c8eb53c",
     "url": "__CCURSOR_RELEASE_BASE_URL__/cometix-ccursor-0.0.11-company.0.tgz"
   },
   "vsix": {
     "name": "cursor2plus-0.0.11-company.vsix",
     "size": 13576463,
-    "sha256": "e413f31c1e4699612fefaa34dec50c73322f7eebe6674cc7c29d39822d227e5f",
+    "sha256": "6eb7f780a32306318c2ead34a13286003ba912569ff7b1144be2911e9dbca906",
     "url": "__CCURSOR_RELEASE_BASE_URL__/cursor2plus-0.0.11-company.vsix"
   },
   "patchReport": {
     "name": "patch-report.json",
     "size": 3567,
-    "sha256": "08ed07046d4ec21f3cd087b4166012886156e4865381a4b73ec8507339beca5a",
+    "sha256": "23aec32ef60582f480f9554cf69c4c929910e4ddf9d84c429484a81e288ceb44",
     "url": "__CCURSOR_RELEASE_BASE_URL__/patch-report.json"
   },
   "install": {

@@ -106,11 +106,14 @@ try {
 
   if (Test-Command "cursor") {
     & cursor --uninstall-extension company-internal.cursor2plus 2>$null | Out-Null
+    $global:LASTEXITCODE = 0
     & cursor --uninstall-extension cometix-space.cursor2plus 2>$null | Out-Null
+    $global:LASTEXITCODE = 0
   }
 
   Write-Host ""
   Write-Host "Uninstalled $DisplayName. Restart Cursor."
+  $global:LASTEXITCODE = 0
 } finally {
   Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 }
