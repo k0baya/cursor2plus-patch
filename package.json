@@ -1,0 +1,21 @@
+{
+  "name": "cursor2plus-patch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "patch:latest": "node scripts/patch-ccursor.mjs --version latest --config config/company-ccursor.json",
+    "patch": "node scripts/patch-ccursor.mjs --config config/company-ccursor.json",
+    "verify": "node scripts/verify-patched.mjs --config config/company-ccursor.json --report dist/patch-report.json",
+    "ci": "npm run patch:latest && npm run verify",
+    "prepare:release": "node scripts/prepare-release.mjs"
+  },
+  "dependencies": {
+    "acorn": "^8.15.0",
+    "acorn-walk": "^8.3.4",
+    "fflate": "^0.8.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

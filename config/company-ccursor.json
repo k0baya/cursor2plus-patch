@@ -1,0 +1,75 @@
+{
+  "companyName": "k0baya",
+  "extensionDisplayName": "Cursor++ k0baya Local",
+  "publisher": "cometix-space",
+  "packageName": "@company/ccursor",
+  "baseVersionSuffix": "company.0",
+  "providerPresets": {
+    "$schemaVersion": 1,
+    "presetBy": "k0baya-company-patch",
+    "providers": [
+      {
+        "id": "company-openai",
+        "name": "Company OpenAI Gateway",
+        "type": "openai-responses",
+        "baseUrl": "http://192.168.50.76:3000/v1",
+        "auth": {
+          "kind": "apiKey",
+          "value": ""
+        },
+        "models": [
+          {
+            "id": "company-gpt",
+            "name": "Company GPT",
+            "apiModel": "gpt-5.4",
+            "defaultOn": true
+          }
+        ]
+      },
+      {
+        "id": "company-anthropic",
+        "name": "Company Anthropic Gateway",
+        "type": "anthropic",
+        "baseUrl": "http://192.168.50.76:3000",
+        "auth": {
+          "kind": "apiKey",
+          "value": ""
+        },
+        "models": [
+          {
+            "id": "company-claude",
+            "name": "Company Claude",
+            "apiModel": "claude-sonnet-4.5",
+            "defaultOn": true
+          }
+        ]
+      },
+      {
+        "id": "company-gemini",
+        "name": "Company Gemini Gateway",
+        "type": "gemini",
+        "baseUrl": "http://192.168.50.76:3000/v1beta",
+        "auth": {
+          "kind": "apiKey",
+          "value": ""
+        },
+        "models": [
+          {
+            "id": "company-gemini",
+            "name": "Company Gemini",
+            "apiModel": "gemini-2.5-pro",
+            "defaultOn": false
+          }
+        ]
+      }
+    ]
+  },
+  "removeCommands": [
+    "cursor2plus.hub.login",
+    "cursor2plus.hub.logout",
+    "cursor2plus.hub.openDeviceManager"
+  ],
+  "patchNpmPackageName": false,
+  "disableNpmUpdateCheck": true,
+  "seedProviderPresets": true
+}
