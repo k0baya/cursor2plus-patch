@@ -83,11 +83,17 @@ function Test-CcursorAlreadyUninstalled($TgzPath) {
 }
 
 function Remove-CursorExtensionRegistrations {
-  if (Test-Command "cursor") {
-    & cursor --uninstall-extension company-internal.cursor2plus 2>$null | Out-Null
-    $global:LASTEXITCODE = 0
-    & cursor --uninstall-extension cometix-space.cursor2plus 2>$null | Out-Null
-    $global:LASTEXITCODE = 0
+  $oldErrorActionPreference = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try {
+    if (Test-Command "cursor") {
+      try { & cursor --uninstall-extension company-internal.cursor2plus *>$null } catch {}
+      $global:LASTEXITCODE = 0
+      try { & cursor --uninstall-extension cometix-space.cursor2plus *>$null } catch {}
+      $global:LASTEXITCODE = 0
+    }
+  } finally {
+    $ErrorActionPreference = $oldErrorActionPreference
   }
 }
 
